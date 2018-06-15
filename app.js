@@ -18,9 +18,9 @@ var mongoose = require('mongoose')
   
 
 //mongoose.Promise = bluebird
-mongoose.connect('mongodb://127.0.0.1:27017/todoapp')
-.then(()=> { console.log(`Succesfully Connected to the Mongodb Database  at URL : mongodb://127.0.0.1:27017/todoapp`)})
-.catch(()=> { console.log(`Error Connecting to the Mongodb Database at URL : mongodb://127.0.0.1:27017/todoapp`)})
+mongoose.connect('mongodb://127.0.0.1:27017/listeoapp')
+.then(()=> { console.log(`Succesfully Connected to the Mongodb Database  at URL : mongodb://127.0.0.1:27017/listeoapp`)})
+.catch(()=> { console.log(`Error Connecting to the Mongodb Database at URL : mongodb://127.0.0.1:27017/listeoapp`)})
 
 
 app.use(cors());
@@ -34,6 +34,7 @@ app.get('/', function (req, res, next) {
 // use JWT auth to secure the api, the token can be passed in the authorization header or querystring
 app.use(expressJwt({
   secret: config.secret,
+  credentialsRequired: true,
   getToken: function (req) {
       if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
           return req.headers.authorization.split(' ')[1];
@@ -42,8 +43,22 @@ app.use(expressJwt({
       }
       return null;
   }
-}).unless({ path: ['/api/authenticate', '/api/users'] }));
+}).unless({ path: ['/api/authenticate', '/api/register'] }));
 
+
+app.use(function (err, req, res, next) {
+  console.log("err");
+    
+    if (err.name === 'UnauthorizedError') {
+      console.log(err);
+      return res.status(401).send(err);
+      // return res.status(401).send({
+      //   success: false,
+      //   status:err.status,
+      //   message: err.code
+      // });
+    }
+  });
 
 // Get the API route ...
 var api = require('./routes/api.route')
