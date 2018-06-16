@@ -52,11 +52,8 @@ exports.update = async function(params){
 
     console.log(oldRecord)
 
-    oldRecord.title = params.title
-    oldRecord.description = params.description
-    oldRecord.status = params.status
-
-
+    oldRecord.name = params.name
+   
     console.log(oldRecord)
 
     try{
@@ -71,10 +68,10 @@ exports.delete = async function(id){
     
     try{
         var deleted = await Model.remove({_id: id})
-        if(deleted.result.n === 0){
+        if(deleted.n === 0){
             throw Error("Record Could not be deleted")
         }
-        return deleted
+        return deleteds
     }catch(e){
         throw Error("Error Occured while Deleting the Record")
     }

@@ -24,8 +24,7 @@ exports.create = async function(params){
     console.log("params ");
     console.log(params);
     var newRecord = new Model(params)
-    console.log(newRecord);
-    
+    console.log(newRecord);    
     try{
         var savedRecord = await newRecord.save()
 
@@ -38,7 +37,6 @@ exports.create = async function(params){
 
 exports.update = async function(params){
     var id = params._id
-
     try{
       
         var oldRecord = await Model.findById(id);
@@ -52,11 +50,8 @@ exports.update = async function(params){
 
     console.log(oldRecord)
 
-    oldRecord.title = params.title
-    oldRecord.description = params.description
-    oldRecord.status = params.status
-
-
+    oldRecord.name = params.name
+   
     console.log(oldRecord)
 
     try{
@@ -71,7 +66,7 @@ exports.delete = async function(id){
     
     try{
         var deleted = await Model.remove({_id: id})
-        if(deleted.result.n === 0){
+        if(deleted.n === 0){
             throw Error("Record Could not be deleted")
         }
         return deleted

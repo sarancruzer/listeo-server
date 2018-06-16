@@ -8,9 +8,7 @@ var UserDetailsSchema = new mongoose.Schema({
     twitter_link:String,
     facebook_link:String,
     googleplus_link:String,
-    status :{type : Number, default :1},
-    user_detail: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-
+    status :{type : Number, default :1}
 },
 {
     timestamps: false

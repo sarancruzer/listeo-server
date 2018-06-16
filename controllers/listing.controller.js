@@ -1,44 +1,49 @@
-var _service = require('../../services/masters/city.service')
+var _service = require('../services/listing.service')
+
 
 _this = this
 
 exports.get = async function (req, res, next) {
-    console.log('users get');
+
+    console.log('listing get');
+
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
+
     try {
+
         var lists = await _service.get({}, page, limit)
+
+
         return res.status(200).json({
             status: 200,
             success: true,
             data: lists,
             message: "Succesfully Recieved"
         });
+
     } catch (e) {
+
+
         return res.status(400).json({
             status: 400,
             success: false,
             message: e.message
         });
+
     }
 }
 
 exports.create = async function (req, res, next) {
-    try {
-        var isExists = await _service.isExists(req.body.name);
-        if(isExists){
-            return res.status(201).json({
-                status: 201,
-                success: true,
-                message: "The record "+ req.body.name +" already exists"
-            })
-        }
-    } catch (e) {
-        throw Error('Error while Paginating lists')
+
+    var record = {
+        title: req.body.first,
+        description: req.body.description,
+        status: req.body.status
     }
-    
+
     try {
-        var createdRecord = await _service.create(req.body)
+        var createdRecord = await _service.create(record)
         return res.status(201).json({
             status: 201,
             success: true,
@@ -46,8 +51,6 @@ exports.create = async function (req, res, next) {
             message: "Succesfully Created "
         })
     } catch (e) {
-
-
         return res.status(400).json({
             status: 400,
             success: false,
@@ -57,8 +60,6 @@ exports.create = async function (req, res, next) {
 }
 
 exports.update = async function (req, res, next) {
-
-
     if (!req.body._id) {
         return res.status(400).json({
             status: 400,
@@ -69,10 +70,17 @@ exports.update = async function (req, res, next) {
 
     var id = req.body._id;
 
-    console.log(req.body)   
+    console.log(req.body)
+
+    var record = {
+        id,
+        title: req.body.title ? req.body.title : null,
+        description: req.body.description ? req.body.description : null,
+        status: req.body.status ? req.body.status : null
+    }
 
     try {
-        var updatedRecord = await _service.update(req.body)
+        var updatedRecord = await _service.update(record)
         return res.status(200).json({
             status: 200,
             success: true,
@@ -91,15 +99,14 @@ exports.update = async function (req, res, next) {
 exports.remove = async function (req, res, next) {
 
     var id = req.params.id;
-    console.log(id);
+
     try {
         var deleted = await _service.delete(id)
-        console.log(deleted);
         return res.status(204).json({
             status: 204,
             success: true,
             data: deleted,
-            message: "Succesfully record Deleted"
+            message: "Succesfully Todo Deleted"
         })
     } catch (e) {
         return res.status(400).json({
