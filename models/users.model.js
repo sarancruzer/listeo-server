@@ -3,17 +3,23 @@ var mongoosePaginate = require('mongoose-paginate')
 
 
 var UserSchema = new mongoose.Schema({
-    firstname: String,
-    lastname: String,
+    name: String,
     email: String,
-    mobile: String,
     password: String,
-    hash:String,
-    status :{type : Number, default :1} 
+    user_type: String,
+    last_login: {
+        type: Date,
+        default: Date.now
+    },
+    status :{type : Number, default :1}
+
 },
 {
     timestamps: true
   })
+
+
+
 
 UserSchema.plugin(mongoosePaginate)
 const User = mongoose.model('User', UserSchema)

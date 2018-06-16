@@ -83,3 +83,13 @@ exports.delete = async function(id){
         throw Error("Error Occured while Deleting the Record")
     }
 }
+
+
+exports.isExists = async function(name){
+    try{
+        var record = await Model.findOne({name:name});
+        return record;
+    }catch(e){
+        throw Error("Error while checking")
+    }
+}

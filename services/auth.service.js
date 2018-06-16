@@ -1,4 +1,5 @@
 var User = require('../models/users.model')
+var UserDetail = require('../models/userdetail.model')
 var bcrypt = require('bcryptjs');
 
 _this = this
@@ -17,26 +18,29 @@ exports.create = async function (params) {
     console.log(params);
 
     var newRecord = new User({
-        firstname: params.firstname,
-        lastname: params.lastname,
+        name: params.name,
         email: params.email,
         password: bcrypt.hashSync(params.password, 10),
-        hash: params.password,
-        mobile: params.mobile
+        user_type: params.user_type        
     })
-
-
     console.log(newRecord);
-
-    // add hashed password to user object
-   // newRecord.hash = bcrypt.hashSync(newRecord.password, 10);
-    
-    console.log(newRecord);
-
-
+     
     try {
         var savedRecord = await newRecord.save();
 
+        var userDetailRecord = new UserDetail({
+            mobile: params.mobile,
+            avatar: params.avatar,
+            twitter_link: params.mobtwitter_linkle,
+            facebook_link: params.facebook_link,
+            googleplus_link: params.googleplus_link,
+            user_detail:newRecord._id
+        })
+
+        console.log(userDetailRecord);
+
+        var savedRecordNew = await userDetailRecord.save();
+        
         return savedRecord;
     } catch (e) {
 

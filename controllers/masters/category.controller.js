@@ -26,6 +26,19 @@ exports.get = async function (req, res, next) {
 exports.create = async function (req, res, next) {
 
     try {
+        var isExists = await _service.isExists(req.body.name);
+        if(isExists){
+            return res.status(201).json({
+                status: 201,
+                success: true,
+                message: "The record "+ req.body.name +" already exists"
+            })
+        }
+    } catch (e) {
+        throw Error('Error while Paginating lists')
+    }
+
+    try {
         var createdRecord = await _service.create(req.body)
         return res.status(201).json({
             status: 201,

@@ -1,9 +1,9 @@
-var _service = require('../../services/masters/city.service')
+var _service = require('../../services/masters/state.service')
 
 _this = this
 
 exports.get = async function (req, res, next) {
-    console.log('users get');
+    console.log('category get');
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
     try {
@@ -24,6 +24,7 @@ exports.get = async function (req, res, next) {
 }
 
 exports.create = async function (req, res, next) {
+
     try {
         var isExists = await _service.isExists(req.body.name);
         if(isExists){
@@ -36,7 +37,7 @@ exports.create = async function (req, res, next) {
     } catch (e) {
         throw Error('Error while Paginating lists')
     }
-    
+
     try {
         var createdRecord = await _service.create(req.body)
         return res.status(201).json({
@@ -57,8 +58,6 @@ exports.create = async function (req, res, next) {
 }
 
 exports.update = async function (req, res, next) {
-
-
     if (!req.body._id) {
         return res.status(400).json({
             status: 400,
@@ -66,20 +65,10 @@ exports.update = async function (req, res, next) {
             message: "Id must be present"
         })
     }
-
-    var id = req.body._id;
-
     console.log(req.body)
-
-    var record = {
-        id,
-        title: req.body.title ? req.body.title : null,
-        description: req.body.description ? req.body.description : null,
-        status: req.body.status ? req.body.status : null
-    }
-
+    
     try {
-        var updatedRecord = await _service.update(record)
+        var updatedRecord = await _service.update(req.body)
         return res.status(200).json({
             status: 200,
             success: true,

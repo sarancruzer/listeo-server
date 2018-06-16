@@ -1,4 +1,4 @@
-var Model = require('../../models/masters/category.model')
+var Model = require('../../models/masters/state.model')
 
 
 _this = this
