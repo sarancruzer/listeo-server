@@ -21,10 +21,15 @@ exports.create = async function (params) {
         name: params.name,
         email: params.email,
         password: bcrypt.hashSync(params.password, 10),
-        user_type: params.user_type       
+
+        user_type: params.user_type,
+        mobile: params.mobile,
+        avatar: params.avatar,
+        twitter_link: params.mobtwitter_linkle,
+        facebook_link: params.facebook_link,
+        googleplus_link: params.googleplus_link,
     })
-
-
+   
     console.log(newRecord);
      
     try {
@@ -39,10 +44,7 @@ exports.create = async function (params) {
             user_detail:newRecord._id               
         })
 
-        console.log(userDetailRecord);
-
-        var savedRecordNew = await userDetailRecord.save();
-        
+               
         return savedRecord;
     } catch (e) {
 
