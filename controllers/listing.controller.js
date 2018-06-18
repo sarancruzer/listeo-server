@@ -36,14 +36,9 @@ exports.get = async function (req, res, next) {
 
 exports.create = async function (req, res, next) {
 
-    var record = {
-        title: req.body.first,
-        description: req.body.description,
-        status: req.body.status
-    }
 
     try {
-        var createdRecord = await _service.create(record)
+        var createdRecord = await _service.create(req.body)
         return res.status(201).json({
             status: 201,
             success: true,

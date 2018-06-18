@@ -1,4 +1,5 @@
 var Model = require('../models/listing.model')
+var ListingAmenities = require('../models/listing-amenities.model')
 
 _this = this
 
@@ -10,7 +11,8 @@ exports.get = async function(query, page, limit){
     }
     
     try {
-        var lists = await Model.paginate(query, options)
+        // var lists = await Model.paginate(query, options)
+        var lists =  Model.find({}).populate('city_id').populate('state_id').skip(page-1).limit(limit).sort({'_id': -1}).exec()
                
         console.log(lists);
 
@@ -25,21 +27,58 @@ exports.get = async function(query, page, limit){
 exports.create = async function(params){
     console.log("params ");
     console.log(params);
+
     
-    var newRecord = new User({
-        first_name: params.first_name,
-        last_name: params.last_name,
+
+    
+
+    // asyncForEach(params.amenities, async (value) => {
+    //     //await waitFor(50)
+    //     console.log(value)
+    //   })
+    
+    var newRecord = new Model({
+        business_name: params.business_name,
+        category: params.category,
+        keywords: params.keywords,
+        address: params.address,
+
+        city_id: params.city_id,
+        state_id: params.state_id,
+        country: params.country,
+        zipcode: params.zipcode,
+
+        latitude: params.latitude,
+        longitude: params.longitude,
+
+        description: params.description,
+        phone: params.phone,
+        website: params.website,
         email: params.email,
-        mobile: params.email,
-        password: params.password,
-        date: new Date(),
-        status: params.status
+
+        facebook_link: params.facebook_link,
+        twitter_link: params.twitter_link,
+        googleplus_link: params.googleplus_link,
+        website: params.website
     })
+
 
     try{
         var savedRecord = await newRecord.save()
 
+
+        params.amenities.forEach((product, index) => {
+            console.log(product);
+
+            var amenityRecord = new ListingAmenities({
+                listing_id: product.listing_id,
+                amenities: product.amenities
+            });
+            var amenitySavedRecord = await amenityRecord.save()
+        });
+
         return savedRecord;
+
     }catch(e){
       
         throw Error("Error while Creating User")

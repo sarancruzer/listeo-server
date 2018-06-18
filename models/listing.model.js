@@ -8,8 +8,8 @@ var ListingSchema = new mongoose.Schema({
     keywords:String,
     address: String,
 
-    city: String,
-    state:String,
+    city_id: {type:mongoose.Schema.Types.ObjectId,ref:'City'},
+    state_id: {type:mongoose.Schema.Types.ObjectId,ref:'State'},
     country: String,
     zipcode: String,
 
@@ -34,5 +34,6 @@ var ListingSchema = new mongoose.Schema({
 
 ListingSchema.plugin(mongoosePaginate)
 const Listing = mongoose.model('Listing', ListingSchema)
+
 
 module.exports = Listing;
