@@ -11,15 +11,10 @@ exports.get = async function(query, page, limit){
     }
     
     try {
-        var lists = await User.paginate(query, options)
+        //var lists = await User.paginate(query, options)     
+        //var lists =  User.find({}).populate('user_detail').skip(page).limit(limit).sort({'_id': -1}).exec()
 
-        // var lists =  UserDetail.find({}).populate('user', {limit: 10}).exec(function(error, users) {
-        //     console.log(JSON.stringify(users, null, "\t"))            
-        // })
-
-        //var lists =  UserDetail.find({}).populate('user_detail').exec()
-
-        //var lists = UserDetail.paginate({}, page, limit , {populate: 'user_detail'});
+        var lists = User.paginate(query, options);
                
         console.log(lists);
 

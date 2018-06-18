@@ -7,13 +7,18 @@ var UserSchema = new mongoose.Schema({
     email: String,
     password: String,
     user_type: String,
+    
+    mobile:String,
+    avatar: String,
+    twitter_link:String,
+    facebook_link:String,
+    googleplus_link:String,
+
     last_login: {
         type: Date,
         default: Date.now
     },
-    status :{type : Number, default :1},
-    user_detail: Array,
-
+    status :{type : Number, default :1}
 },
 {
     timestamps: true

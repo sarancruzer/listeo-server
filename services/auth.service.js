@@ -17,30 +17,26 @@ exports.create = async function (params) {
     console.log("params ");
     console.log(params);
 
-    var userDetailRecord = new UserDetail({
-        mobile: params.mobile,
-        avatar: params.avatar,
-        twitter_link: params.mobtwitter_linkle,
-        facebook_link: params.facebook_link,
-        googleplus_link: params.googleplus_link       
-    })
+   
 
     var newRecord = new User({
         name: params.name,
         email: params.email,
         password: bcrypt.hashSync(params.password, 10),
         user_type: params.user_type,
-        user_detail:userDetailRecord        
+        mobile: params.mobile,
+        avatar: params.avatar,
+        twitter_link: params.mobtwitter_linkle,
+        facebook_link: params.facebook_link,
+        googleplus_link: params.googleplus_link,
     })
+   
     console.log(newRecord);
      
     try {
         var savedRecord = await newRecord.save();
 
-        console.log(userDetailRecord);
-
-        var savedRecordNew = await userDetailRecord.save();
-        
+               
         return savedRecord;
     } catch (e) {
 
