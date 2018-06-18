@@ -9,8 +9,11 @@ exports.get = async function(query, page, limit){
         page,
         limit
     }
+
+    console.log('users service');
     
     try {
+
         //var lists = await User.paginate(query, options)     
         //var lists =  User.find({}).populate('user_detail').skip(page).limit(limit).sort({'_id': -1}).exec()
 
