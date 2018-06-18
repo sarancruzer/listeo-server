@@ -11,8 +11,7 @@ var UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    status :{type : Number, default :1},
-    user_detail: Array,
+    status :{type : Number, default :1}
 
 },
 {

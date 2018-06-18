@@ -14,6 +14,7 @@ exports.get = async function (req, res, next) {
 
         var lists = await _service.get({}, page, limit)
 
+        console.log(lists);
 
         return res.status(200).json({
             status: 200,

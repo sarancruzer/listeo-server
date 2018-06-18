@@ -9,19 +9,24 @@ exports.get = async function(query, page, limit){
         page,
         limit
     }
+
+    console.log('users service');
     
     try {
-        var lists = await User.paginate(query, options)
+        //var lists = await User.paginate(query, options)
 
-        // var lists =  UserDetail.find({}).populate('user', {limit: 10}).exec(function(error, users) {
-        //     console.log(JSON.stringify(users, null, "\t"))            
-        // })
+        
+        var lists =  UserDetail.find({}).populate('user_detail').exec()
 
-        //var lists =  UserDetail.find({}).populate('user_detail').exec()
+        console.log(lists.paginate(query, options));
 
-        //var lists = UserDetail.paginate({}, page, limit , {populate: 'user_detail'});
-               
-        console.log(lists);
+        res = [];
+        res["total"] = 5;
+        res["limit"] = 10;
+        res["page"] = 1;
+        res["pages"] = 1;
+        res["lists"] = 1;
+        
 
         return lists;
 
